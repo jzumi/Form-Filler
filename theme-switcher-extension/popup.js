@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainView = document.getElementById('main-view');
     const uploadResumeBtn = document.getElementById('upload-resume-btn');
     const changeResumeBtn = document.getElementById('change-resume-btn');
+    const clearResumeBtn = document.getElementById('clear-resume-btn'); // New element
     const autofillBtn = document.getElementById('autofill-btn');
     const chatbotBtn = document.getElementById('chatbot-btn');
     const resumeInput = document.getElementById('resume-input');
@@ -22,6 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Event Listeners ---
     uploadResumeBtn.addEventListener('click', () => resumeInput.click());
     changeResumeBtn.addEventListener('click', () => resumeInput.click());
+
+    // ADDED THIS EVENT LISTENER
+    clearResumeBtn.addEventListener('click', () => {
+        // Remove the file from storage
+        chrome.storage.local.remove('resumeFileName', () => {
+            // Switch back to the upload view
+            showUploadView();
+        });
+    });
 
     resumeInput.addEventListener('change', (event) => {
         const file = event.target.files[0];
@@ -51,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     notif.style.position = 'fixed';
                     notif.style.top = '20px';
                     notif.style.right = '20px';
-                    notif.style.backgroundColor = '#4c6ef5';
+                    notif.style.backgroundColor = '#571DE0';
                     notif.style.color = 'white';
                     notif.style.padding = '12px 20px';
                     notif.style.borderRadius = '8px';
@@ -93,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // This function is injected onto the page to create the chatbot.
+// (The chatbotController function remains unchanged)
 function chatbotController() {
     const CHATBOT_ID = 'form-filler-ai-chatbot-container';
     if (document.getElementById(CHATBOT_ID)) {
@@ -179,7 +190,7 @@ function chatbotController() {
     const closeBtn = container.querySelector('.chatbot-close-btn');
 
     // Add logic
-    closeBtn.addEventListener('click', () => container.remove());
+    closeBtn.addEventListener('click', () => container.style.display = 'none');
     inputForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const userText = inputField.value.trim();
