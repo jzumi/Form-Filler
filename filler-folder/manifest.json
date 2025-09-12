@@ -1,8 +1,15 @@
 {
     "manifest_version": 3,
-    "name": "Job Filler Manifest",
+    "name": "Job Filler Extension",
     "version": "1.0.0",
     "description": "An aid to filling out job applications with a resume filler web extension",
-    "icons": {
+    "icons": {},
+    "action": {
+        "default_popup": "hello.html",
+        "default_icon": "hello_extensions.png"
+    },
+    "content_scripts": 
+    {
+        "matches": ["https://workday.wd5.myworkdayjobs.com/Workday/?source=Careers_Website"]
     }
 }
